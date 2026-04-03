@@ -1,0 +1,85 @@
+---
+interface Member {
+  name: string;
+  github: string;
+  avatar: string;
+}
+
+interface Props {
+  members: Member[];
+}
+
+const { members } = Astro.props;
+---
+
+<section class="py-24 px-6 bg-white">
+  <div class="max-w-4xl mx-auto text-center">
+    <h2 class="text-3xl font-bold text-slate-900 mb-6">
+      We are Team Teritama.
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+      <div>
+        <h3
+          class="font-bold text-slate-900 border-l-2 border-orange-400 pl-3 mb-2 uppercase tracking-widest text-sm"
+        >
+          Creative
+        </h3>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          ただ作るのではなく、遊び心と驚きを大切に。新しい技術を楽しみながらプロダクトへ昇華させます。
+        </p>
+      </div>
+      <div>
+        <h3
+          class="font-bold text-slate-900 border-l-2 border-orange-400 pl-3 mb-2 uppercase tracking-widest text-sm"
+        >
+          Agile
+        </h3>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          アイデアをすぐに形に。2022年から絶え間なく続くアウトプットが私たちの誇りです。
+        </p>
+      </div>
+      <div>
+        <h3
+          class="font-bold text-slate-900 border-l-2 border-orange-400 pl-3 mb-2 uppercase tracking-widest text-sm"
+        >
+          Human-Centric
+        </h3>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          福祉から教育、エンタメまで。人の体温が通うようなデジタル体験を追求しています。
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-20">
+      <h3
+        class="text-sm font-bold text-slate-400 uppercase tracking-[0.2em] mb-8"
+      >
+        Core Members
+      </h3>
+      <div class="flex justify-center gap-12">
+        {
+          members.map((member) => (
+            <a
+              href={member.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group flex flex-col items-center"
+            >
+              <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-slate-100 group-hover:border-orange-200 transition-colors mb-3 bg-slate-50 shadow-sm">
+                <img
+                  src={member.avatar}
+                  alt={member.name}
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <span class="text-sm font-medium text-slate-600 group-hover:text-orange-600 transition-colors tracking-wider">
+                @{member.name}
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

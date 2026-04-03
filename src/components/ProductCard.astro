@@ -1,0 +1,137 @@
+---
+interface Props {
+  name: string;
+  year: string;
+  icon: string;
+  description: string;
+  tags: string[];
+  github: string;
+  youtube?: string;
+  awards?: string;
+}
+
+const { name, year, icon, description, tags, github, youtube, awards } =
+  Astro.props;
+---
+
+<div
+  class="group bg-white border border-slate-100 rounded-[2.5rem] p-10 hover:border-amber-200 hover:shadow-xl transition-shadow flex flex-col relative overflow-hidden"
+>
+  <div class="flex items-start justify-between mb-5">
+    <div
+      class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center overflow-hidden text-4xl shadow-inner"
+    >
+      {
+        icon.startsWith('http') ? (
+          <img
+            src={icon}
+            alt={`${name}のロゴ`}
+            class="w-full h-full object-contain p-2"
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <span>{icon}</span>
+        )
+      }
+    </div>
+    <span
+      class="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-1 rounded tracking-widest"
+    >
+      {year}
+    </span>
+  </div>
+
+  <div class="flex-grow">
+    <h3
+      class="text-xl font-bold text-slate-900 group-hover:text-orange-600 transition-colors tracking-tight"
+    >
+      {name}
+    </h3>
+    {
+      awards && (
+        <div class="mt-2 flex items-center gap-1.5 text-[9px] font-bold text-amber-800 bg-amber-50/50 px-2 py-0.5 rounded border border-amber-200/50 w-fit tracking-wider uppercase">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+          </svg>
+          {awards}
+        </div>
+      )
+    }
+    <p class="text-sm text-slate-500 mt-4 leading-relaxed font-light">
+      {description}
+    </p>
+  </div>
+
+  <div
+    class="mt-8 flex items-end justify-between border-t border-slate-50 pt-4"
+  >
+    <div class="flex flex-wrap gap-1.5 max-w-[80%]">
+      {
+        tags.map((tag) => (
+          <span class="text-[10px] font-medium text-slate-500 bg-slate-50 border border-slate-100 px-2 py-0.5 rounded-md">
+            {tag}
+          </span>
+        ))
+      }
+    </div>
+
+    <div class="flex gap-3">
+      {
+        youtube && (
+          <a
+            href={youtube}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-slate-400 hover:text-red-500 transition-colors"
+            title="YouTubeで動画を見る"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.42a2.78 2.78 0 0 0-1.94 2C1 8.14 1 12 1 12s0 3.86.46 5.58a2.78 2.78 0 0 0 1.94 2c1.72.42 8.6.42 8.6.42s6.88 0 8.6-.42a2.78 2.78 0 0 0 1.94-2C23 15.86 23 12 23 12s0-3.86-.46-5.58z" />
+              <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" />
+            </svg>
+          </a>
+        )
+      }
+      <a
+        href={github}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-slate-400 hover:text-orange-500 transition-colors"
+        title="GitHubでコードを見る"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+          ></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>

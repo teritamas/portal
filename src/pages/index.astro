@@ -1,11 +1,161 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import ProductList from '../components/ProductList.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+
+const products = [
+  {
+    name: 'Fukushia',
+    year: '2025',
+    icon: 'https://raw.githubusercontent.com/teritamas/fukushia/refs/heads/main/frontend/src/app/favicon.ico',
+    description:
+      '社会福祉士向けの業務支援アプリ。現場の声から生まれたアセスメントの自動化とタスク管理で、ケアの質向上をサポート。',
+    tags: ['Next.js', 'Firebase', 'HealthTech'],
+    github: 'https://github.com/teritamas/fukushia',
+    youtube: 'https://www.youtube.com/watch?v=1GEt5MsVObQ',
+    awards: '第 3 回 AI Agent Hackathon with Google Cloud 最優秀賞',
+  },
+  {
+    name: 'Code DNA',
+    year: '2024',
+    icon: 'https://raw.githubusercontent.com/teritamas/code-dna/refs/heads/main/webapp/public/favicon.ico',
+    description:
+      'エンジニアの「コードの個性」を可視化・分析。GitHub連携により、得意な技術やスタイルを直感的に把握できます。',
+    tags: ['Gemini API', 'TypeScript', 'DataViz'],
+    github: 'https://github.com/teritamas/code-dna',
+  },
+  {
+    name: 'Kajitter',
+    year: '2024',
+    icon: 'https://raw.githubusercontent.com/teritamas/kajitter/refs/heads/main/public/favicon.ico',
+    description:
+      '家事をオープンにし、モチベーションを高め合うSNS。家族の「見えない貢献」を可視化し、感謝を循環させます。',
+    tags: ['React Native', 'FastAPI', 'SNS'],
+    github: 'https://github.com/teritamas/kajitter',
+    awards: 'Qiita ハッカソン 2024 決勝進出',
+  },
+  {
+    name: 'Emoriba',
+    year: '2024',
+    icon: 'https://raw.githubusercontent.com/teritamas/emoriba/refs/heads/main/public/favicon.png',
+    description:
+      '東京ドームシティの熱狂をWebARで可視化。現実の風景に感情が重なる、没入型のエンタメ体験を提供。',
+    tags: ['8th Wall', 'Three.js', 'WebAR'],
+    github: 'https://github.com/teritamas/emoriba',
+    youtube: 'https://www.youtube.com/watch?v=FjIuC8W0-8A',
+  },
+  {
+    name: 'I am Chopsticker',
+    year: '2024',
+    icon: '🥢',
+    description:
+      'AIが箸の使い方をリアルタイムで診断・フィードバック。正しい作法を楽しく身につけるための学習アプリ。',
+    tags: ['TensorFlow.js', 'React', 'EdTech'],
+    github: 'https://github.com/teritamas/i-am-chopsticker',
+    youtube: 'https://www.youtube.com/watch?v=0_u6mY2-M7c',
+  },
+  {
+    name: 'Positive Generator',
+    year: '2024',
+    icon: 'https://raw.githubusercontent.com/teritamas/positive-generator/refs/heads/main/chrome_extension/icon.png',
+    description:
+      'SlackのメッセージをAIが自動でポジティブな言葉に変換。チームの心理的安全性をデジタルから支えます。',
+    tags: ['Slack API', 'OpenAI', 'Bot'],
+    github: 'https://github.com/teritamas/positive-generator',
+  },
+  {
+    name: 'Sotomiru',
+    year: '2023',
+    icon: 'https://raw.githubusercontent.com/teritamas/Sotomiru/refs/heads/main/public/favicon.ico',
+    description:
+      '車窓の景色でビンゴを楽しみ、見つけた風景をNFT化。退屈な移動時間を家族の思い出作りに変えるドライブアプリ。',
+    tags: ['Polygon', 'Vision AI', 'GameFi'],
+    github: 'https://github.com/teritamas/Sotomiru',
+    awards: 'web3 Global Hackathon Mazda 優秀賞 / Aster 優秀賞',
+  },
+  {
+    name: '超絵しりとり',
+    year: '2023',
+    icon: 'https://raw.githubusercontent.com/teritamas/super-picture-shiritori/refs/heads/main/public/favicon.ico',
+    description:
+      'AIが文脈を汲み取りながら繋がる、進化型しりとり。作品はオンチェーンに刻まれ、唯一無二の記憶に。',
+    tags: ['Stable Diffusion', 'Web3', 'Entertainment'],
+    github: 'https://github.com/teritamas/super-picture-shiritori',
+  },
+  {
+    name: 'マイナセーフティ',
+    year: '2023',
+    icon: 'https://raw.githubusercontent.com/teritamas/myna-safety-frontend/main/public/logo.png',
+    description:
+      'マイナンバーカードのNFC機能を活用した、迅速な避難所受付と安否確認システム。災害時の情報連携をスムーズに。',
+    tags: ['NFC', 'Go', 'GovTech'],
+    github: 'https://github.com/teritamas/myna-safety-frontend',
+    youtube: 'https://www.youtube.com/watch?v=5-ktu6egUCs',
+    awards: 'マイナポータルハッカソン 一般審査委員特別賞',
+  },
+  {
+    name: 'Lit Art Market',
+    year: '2023',
+    icon: 'https://raw.githubusercontent.com/teritamas/lit-art-market-frontend/main/public/litartm.png',
+    description:
+      '生成AIへの学習可否を明示したクリエイター支援型マーケットプレイス。正当な対価と権利を守るエコシステム。',
+    tags: ['NFT', 'Copyright', 'Web3'],
+    github: 'https://github.com/teritamas/lit-art-market-frontend',
+    youtube: 'https://www.youtube.com/watch?v=example4',
+  },
+  {
+    name: 'Prompt NFT Tree',
+    year: '2023',
+    icon: 'https://raw.githubusercontent.com/teritamas/prompt-nft-tree/main/packages/app/static/images/icon.png',
+    description:
+      '優れたAIプロンプトを「種」としてNFT化。再利用や改良の履歴を可視化し、プロンプトエンジニアリングを加速。',
+    tags: ['Solidity', 'AI Prompt', 'Collaboration'],
+    github: 'https://github.com/teritamas/prompt-nft-tree',
+    awards: 'ETHGlobal Tokyo 2023 Taiko Best Dapps Prize',
+  },
+  {
+    name: 'イノサポ',
+    year: '2023',
+    icon: 'https://raw.githubusercontent.com/teritamas/innovation-support-frontend/refs/heads/main/public/favicon.ico',
+    description:
+      '起業家と支援者を繋ぐマッチングプラットフォーム。信頼性の高い情報交換を支えるWeb3フロントエンドを構築。',
+    tags: ['Next.js', 'Ethers.js', 'Business'],
+    github: 'https://github.com/teritamas/innovation-support-frontend',
+    youtube: 'https://www.youtube.com/watch?v=vKUgXuEGCRI',
+    awards: 'トヨタ自動車×博報堂キースリー WEB3 ハッカソン 最優秀賞',
+  },
+  {
+    name: 'レコサポ',
+    year: '2022',
+    icon: 'https://raw.githubusercontent.com/teritamas/soap-record-support-frontend/main/public/fav.png',
+    description:
+      '看護記録の作成時間をAIにより大幅削減。事務作業の効率化とケア記録の質向上を両立させるDXサービス。',
+    tags: ['NLP', 'DX', 'Nursing'],
+    github: 'https://github.com/teritamas/soap-record-support-frontend',
+    awards: 'Qiita × Algorithm Medical Hackathon 優秀賞',
+  },
+];
+
+const members = [
+  {
+    name: 'sey323',
+    github: 'https://github.com/sey323',
+    avatar: 'https://github.com/sey323.png',
+  },
+  {
+    name: 'sayako21',
+    github: 'https://github.com/sayako21',
+    avatar: 'https://github.com/sayako21.png',
+  },
+];
 ---
 
 <Layout>
-	<Welcome />
+  <Hero />
+  <About members={members} />
+  <ProductList products={products} />
 </Layout>
