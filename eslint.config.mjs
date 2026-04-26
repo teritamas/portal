@@ -5,7 +5,16 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default tseslint.config(
   // Astroが自動生成するファイルとビルド成果物を除外
-  { ignores: ['.astro/**', 'dist/**'] },
+  {
+    ignores: [
+      '.astro/**',
+      'lp/.astro/**',
+      'dist/**',
+      'lp/dist/**',
+      'mcp/dist/**',
+      'shared/dist/**',
+    ],
+  },
   ...tseslint.configs.recommended,
   ...eslintPluginAstro.configs.recommended,
   {

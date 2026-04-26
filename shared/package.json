@@ -1,0 +1,17 @@
+{
+  "name": "@teritamas/shared",
+  "type": "module",
+  "version": "0.0.1",
+  "exports": {
+    "./projects": {
+      "types": "./dist/projects.d.ts",
+      "import": "./dist/projects.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

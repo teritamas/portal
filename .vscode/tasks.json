@@ -2,101 +2,62 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "dev",
+      "label": "npm: install",
       "type": "shell",
-      "command": "npm",
-      "args": ["run", "dev"],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "isBackground": true,
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "clear": true
-      },
-      "detail": "Start the Astro development server"
+      "command": "npm install",
+      "problemMatcher": []
     },
     {
-      "label": "install",
+      "label": "npm: dev",
       "type": "shell",
-      "command": "npm",
-      "args": ["ci"],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "clear": true
-      },
-      "detail": "Install dependencies from package-lock.json"
+      "command": "npm run dev",
+      "problemMatcher": []
     },
     {
-      "label": "build",
+      "label": "npm: build",
       "type": "shell",
-      "command": "npm",
-      "args": ["run", "build"],
-      "dependsOn": ["install"],
-      "dependsOrder": "sequence",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "clear": true
-      },
-      "detail": "Build the Astro site for production"
+      "command": "npm run build",
+      "group": "build",
+      "problemMatcher": []
     },
     {
-      "label": "check",
+      "label": "npm: preview",
       "type": "shell",
-      "command": "npm",
-      "args": ["run", "check"],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "clear": true
-      },
-      "detail": "Run Astro type and project checks"
+      "command": "npm run preview",
+      "problemMatcher": []
     },
     {
-      "label": "lint",
+      "label": "npm: mcp:build",
       "type": "shell",
-      "command": "npm",
-      "args": ["run", "lint"],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "clear": true
-      },
-      "detail": "Run ESLint for the project"
+      "command": "npm run mcp:build",
+      "group": "build",
+      "problemMatcher": []
     },
     {
-      "label": "format",
+      "label": "npm: mcp:start",
       "type": "shell",
-      "command": "npm",
-      "args": ["run", "format"],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "clear": true
-      },
-      "detail": "Run Prettier across the repository"
+      "command": "PORT=8787 npm run mcp:start",
+      "problemMatcher": []
+    },
+    {
+      "label": "npm: mcp:dev",
+      "type": "shell",
+      "command": "PORT=8787 npm run mcp:dev",
+      "problemMatcher": []
+    },
+    {
+      "label": "npm: astro",
+      "type": "shell",
+      "command": "npm run astro -- ${input:astroArgs}",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "astroArgs",
+      "type": "promptString",
+      "description": "Astro CLI に渡す引数",
+      "default": "--help"
     }
   ]
 }

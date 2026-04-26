@@ -1,5 +1,8 @@
 # build output
 dist/
+lp/dist/
+mcp/dist/
+shared/dist/
 
 # dependencies
 node_modules/
@@ -18,6 +21,7 @@ pnpm-debug.log*
 
 # astro
 .astro/
+lp/.astro/
 
 # OS metadata
 .DS_Store

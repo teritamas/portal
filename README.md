@@ -1,46 +1,55 @@
-# Astro Starter Kit: Basics
+# Teritamas Portal
+
+てりたまのハッカソン作品を紹介する Astro 製ポートフォリオサイトと、ChatGPT App 用のローカル MCP サーバーを含む npm workspaces 構成のリポジトリです。
+作品データは `shared` workspace に集約し、`lp` と `mcp` の両方から共通利用します。
+
+## ChatGPT App
+
+MCP サーバーは読み取り専用の `projects.showcase` ツールを公開します。
+このツールはポートフォリオ作品の構造化データを返し、`ui://teritamas/projects.html` に登録されたウィジェットを表示します。
+Generative UI の動作確認には `projects.generate_ui` ツールを使用します。
+このツールは検索結果に応じて `cards`、`table`、`comparison`、`spotlight` の UI 記述を生成し、同じウィジェットがその記述を解釈して表示します。
 
 ```sh
-npm create astro@latest -- --template basics
+npm run mcp:build
+PORT=8787 npm run mcp:start
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+ローカルの Streamable HTTP MCP エンドポイントには `http://127.0.0.1:8787` を指定してください。
+軽量な起動確認用に `GET /health` も利用できます。
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## ディレクトリ構成
 
 ```text
 /
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
+├── lp/
+│   ├── public/
+│   ├── src/
+│   ├── astro.config.mjs
+│   └── package.json
+├── mcp/
+│   ├── server.ts
+│   ├── widget/
+│   └── package.json
+├── shared/
+│   ├── src/
+│   │   └── projects.ts
+│   └── package.json
 └── package.json
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## コマンド
 
-## 🧞 Commands
+すべてのコマンドはプロジェクトルートで実行します。
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+| コマンド             | 説明                                           |
+| :------------------- | :--------------------------------------------- |
+| `npm install`        | 依存関係をインストールします                   |
+| `npm run dev`        | `lp` の Astro ローカル開発サーバーを起動します |
+| `npm run build`      | `lp` の本番用サイトを `lp/dist/` にビルドします |
+| `npm run preview`    | `lp` のビルド済みサイトをローカルでプレビューします |
+| `npm run check`      | `lp` の Astro check を実行します               |
+| `npm run mcp:build`  | `shared`、ChatGPT App ウィジェット、MCP サーバーをビルドします |
+| `npm run mcp:start`  | ローカル MCP サーバーを起動します              |
+| `npm run mcp:dev`    | MCP サーバーをビルドして起動します             |
+| `npm run astro ...`  | `lp` workspace の Astro CLI コマンドを実行します |
