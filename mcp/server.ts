@@ -7,7 +7,7 @@ import {
   registerAppTool,
 } from '@modelcontextprotocol/ext-apps/server';
 import { z } from 'zod';
-import { renderProjectWidgetHtml } from './appHtml.js';
+import { renderProjectGenerativeUIHtml } from './appHtml.js';
 import { searchProjects } from './projectSearch.js';
 
 const APP_RESOURCE_URI = 'ui://teritamas/projects.html';
@@ -19,13 +19,25 @@ const searchProjectsInputSchema = {
     .string()
     .trim()
     .optional()
-    .describe('Optional keyword to search project names, descriptions, awards, and tags.'),
-  tag: z.string().trim().optional().describe('Optional exact project tag filter.'),
-  year: z.string().trim().optional().describe('Optional exact release year filter.'),
+    .describe(
+      'Optional keyword to search project names, descriptions, awards, and tags.'
+    ),
+  tag: z
+    .string()
+    .trim()
+    .optional()
+    .describe('Optional exact project tag filter.'),
+  year: z
+    .string()
+    .trim()
+    .optional()
+    .describe('Optional exact release year filter.'),
   view: z
     .enum(['auto', 'cards', 'table', 'comparison', 'spotlight'])
     .optional()
-    .describe('Optional UI layout preference for the generated project interface.'),
+    .describe(
+      'Optional UI layout preference for the generated project interface.'
+    ),
 };
 
 function createMcpServer(): McpServer {
@@ -36,17 +48,18 @@ function createMcpServer(): McpServer {
 
   registerAppResource(
     server,
-    'Teritamas Projects Widget',
+    'Teritamas Projects Generative UI',
     APP_RESOURCE_URI,
     {
-      description: 'Interactive project showcase for the Teritamas hackathon portal.',
+      description:
+        'Generative UI for the Teritamas hackathon portfolio, provided as an MCP App.',
     },
     async () => ({
       contents: [
         {
           uri: APP_RESOURCE_URI,
           mimeType: RESOURCE_MIME_TYPE,
-          text: renderProjectWidgetHtml(),
+          text: renderProjectGenerativeUIHtml(),
           _meta: {
             ui: {
               prefersBorder: true,
@@ -61,16 +74,16 @@ function createMcpServer(): McpServer {
           },
         },
       ],
-    }),
+    })
   );
 
   registerAppTool(
     server,
     'projects.showcase',
     {
-      title: 'Show Teritamas projects',
+      title: 'Showcase projects (Generative UI)',
       description:
-        'Search and display Teritamas hackathon portfolio projects in an interactive widget.',
+        'Display the Teritamas hackathon portfolio using a rich, interactive Generative UI.',
       inputSchema: searchProjectsInputSchema,
       annotations: {
         readOnlyHint: true,
@@ -94,16 +107,16 @@ function createMcpServer(): McpServer {
         content: [{ type: 'text', text }],
         structuredContent: result as unknown as Record<string, unknown>,
       };
-    },
+    }
   );
 
   registerAppTool(
     server,
     'projects.generate_ui',
     {
-      title: 'Generate Teritamas project UI',
+      title: 'Configure Generative UI',
       description:
-        'Generate a data-driven project UI specification and render it as an adaptive ChatGPT App widget.',
+        'Customize the Generative UI layout and content for the Teritamas project showcase.',
       inputSchema: searchProjectsInputSchema,
       annotations: {
         readOnlyHint: true,
@@ -127,7 +140,7 @@ function createMcpServer(): McpServer {
         content: [{ type: 'text', text }],
         structuredContent: result as unknown as Record<string, unknown>,
       };
-    },
+    }
   );
 
   return server;

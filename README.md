@@ -42,14 +42,14 @@ PORT=8787 npm run mcp:start
 
 すべてのコマンドはプロジェクトルートで実行します。
 
-| コマンド             | 説明                                           |
-| :------------------- | :--------------------------------------------- |
-| `npm install`        | 依存関係をインストールします                   |
-| `npm run dev`        | `lp` の Astro ローカル開発サーバーを起動します |
-| `npm run build`      | `lp` の本番用サイトを `lp/dist/` にビルドします |
-| `npm run preview`    | `lp` のビルド済みサイトをローカルでプレビューします |
-| `npm run check`      | `lp` の Astro check を実行します               |
-| `npm run mcp:build`  | `shared`、ChatGPT App ウィジェット、MCP サーバーをビルドします |
-| `npm run mcp:start`  | ローカル MCP サーバーを起動します              |
-| `npm run mcp:dev`    | MCP サーバーをビルドして起動します             |
-| `npm run astro ...`  | `lp` workspace の Astro CLI コマンドを実行します |
+| コマンド            | 説明                                                           |
+| :------------------ | :------------------------------------------------------------- |
+| `npm install`       | 依存関係をインストールします                                   |
+| `npm run dev`       | `lp` の Astro ローカル開発サーバーを起動します                 |
+| `npm run build`     | `lp` の本番用サイトを `lp/dist/` にビルドします                |
+| `npm run preview`   | `lp` のビルド済みサイトをローカルでプレビューします            |
+| `npm run check`     | `lp` の Astro check を実行します                               |
+| `npm run mcp:build` | `shared`、ChatGPT App ウィジェット、MCP サーバーをビルドします |
+| `npm run mcp:start` | ローカル MCP サーバーを起動します                              |
+| `npm run mcp:dev`   | MCP サーバーをビルドして起動します                             |
+| `npm run astro ...` | `lp` workspace の Astro CLI コマンドを実行します               |

@@ -49,7 +49,7 @@ interface GeneratedProjectTableColumn {
 const root = document.querySelector<HTMLElement>('#app');
 
 if (!root) {
-  throw new Error('Widget root element was not found.');
+  throw new Error('Generative UI root element was not found.');
 }
 
 let latestResult: ProjectSearchResult = {
@@ -60,20 +60,20 @@ let latestResult: ProjectSearchResult = {
   availableYears: [],
 };
 
-const hostApp = new App(
-  { name: 'teritamas-projects-widget', version: '0.1.0' },
+const generativeUI = new App(
+  { name: 'teritamas-generative-ui', version: '0.1.0' },
   {},
-  { autoResize: true },
+  { autoResize: true }
 );
 
 render(latestResult);
 
-hostApp.ontoolresult = (params) => {
+generativeUI.ontoolresult = (params) => {
   latestResult = normalizeResult(params.structuredContent);
   render(latestResult);
 };
 
-void hostApp.connect().catch(() => {
+void generativeUI.connect().catch(() => {
   render(latestResult);
 });
 
@@ -91,26 +91,29 @@ function isProjectSearchResult(value: unknown): value is ProjectSearchResult {
   }
 
   const candidate = value as Partial<ProjectSearchResult>;
-  return Array.isArray(candidate.projects) && typeof candidate.totalCount === 'number';
+  return (
+    Array.isArray(candidate.projects) &&
+    typeof candidate.totalCount === 'number'
+  );
 }
 
 function render(result: ProjectSearchResult): void {
-  root.replaceChildren(createWidget(result));
+  root.replaceChildren(createGenerativeUI(result));
 }
 
-function createWidget(result: ProjectSearchResult): HTMLElement {
+function createGenerativeUI(result: ProjectSearchResult): HTMLElement {
   const generatedUi = result.generatedUi ?? createFallbackUi(result);
-  const container = createElement('section', 'project-widget');
+  const container = createElement('section', 'project-generative-ui');
 
-  const header = createElement('header', 'project-widget__header');
+  const header = createElement('header', 'project-generative-ui__header');
   header.append(
-    createElement('p', 'project-widget__eyebrow', 'Teritamas Portal'),
-    createElement('h1', 'project-widget__title', generatedUi.title),
-    createElement('p', 'project-widget__summary', generatedUi.summary),
+    createElement('p', 'project-generative-ui__eyebrow', 'Portfolio Showcase'),
+    createElement('h1', 'project-generative-ui__title', generatedUi.title),
+    createElement('p', 'project-generative-ui__summary', generatedUi.summary)
   );
 
   const metrics = createMetrics(generatedUi.metrics);
-  const filters = createElement('div', 'project-widget__filters');
+  const filters = createElement('div', 'project-generative-ui__filters');
   appendFilter(filters, 'Keyword', result.filters.query);
   appendFilter(filters, 'Tag', result.filters.tag);
   appendFilter(filters, 'Year', result.filters.year);
@@ -137,11 +140,15 @@ function createFallbackUi(result: ProjectSearchResult): GeneratedProjectUi {
       { label: 'Projects', value: String(result.totalCount) },
       {
         label: 'Awarded',
-        value: String(result.projects.filter((project) => project.awards).length),
+        value: String(
+          result.projects.filter((project) => project.awards).length
+        ),
       },
       {
         label: 'Tags',
-        value: String(new Set(result.projects.flatMap((project) => project.tags)).size),
+        value: String(
+          new Set(result.projects.flatMap((project) => project.tags)).size
+        ),
       },
     ],
     tableColumns: [
@@ -155,26 +162,26 @@ function createFallbackUi(result: ProjectSearchResult): GeneratedProjectUi {
 }
 
 function createMetrics(metrics: GeneratedProjectMetric[]): HTMLElement {
-  const list = createElement('dl', 'project-widget__metrics');
+  const list = createElement('dl', 'project-generative-ui__metrics');
   list.append(
     ...metrics.map((metric) => {
-      const item = createElement('div', 'project-widget__metric');
+      const item = createElement('div', 'project-generative-ui__metric');
       item.append(
-        createElement('dt', 'project-widget__metric-label', metric.label),
-        createElement('dd', 'project-widget__metric-value', metric.value),
+        createElement('dt', 'project-generative-ui__metric-label', metric.label),
+        createElement('dd', 'project-generative-ui__metric-value', metric.value)
       );
       return item;
-    }),
+    })
   );
   return list;
 }
 
 function createGeneratedLayout(
   projects: Project[],
-  generatedUi: GeneratedProjectUi,
+  generatedUi: GeneratedProjectUi
 ): HTMLElement {
   if (projects.length === 0) {
-    return createElement('p', 'project-widget__empty', generatedUi.emptyState);
+    return createElement('p', 'project-generative-ui__empty', generatedUi.emptyState);
   }
 
   if (generatedUi.layout === 'table') {
@@ -182,7 +189,7 @@ function createGeneratedLayout(
   }
 
   if (generatedUi.layout === 'comparison') {
-    const grid = createElement('div', 'project-widget__comparison');
+    const grid = createElement('div', 'project-generative-ui__comparison');
     grid.append(...projects.map(createComparisonCard));
     return grid;
   }
@@ -191,18 +198,25 @@ function createGeneratedLayout(
     return createSpotlight(projects[0]);
   }
 
-  const grid = createElement('div', 'project-widget__grid');
+  const grid = createElement('div', 'project-generative-ui__grid');
   grid.append(...projects.map(createProjectCard));
   return grid;
 }
 
-function appendFilter(parent: HTMLElement, label: string, value: string | undefined): void {
+function appendFilter(
+  parent: HTMLElement,
+  label: string,
+  value: string | undefined
+): void {
   if (!value) {
     return;
   }
 
-  const filter = createElement('span', 'project-widget__filter');
-  filter.append(createElement('strong', undefined, `${label}: `), document.createTextNode(value));
+  const filter = createElement('span', 'project-generative-ui__filter');
+  filter.append(
+    createElement('strong', undefined, `${label}: `),
+    document.createTextNode(value)
+  );
   parent.append(filter);
 }
 
@@ -213,12 +227,20 @@ function createProjectCard(project: Project): HTMLElement {
   const titleRow = createElement('div', 'project-card__title-row');
   const title = createElement('h2', 'project-card__title', project.name);
   const year = createElement('span', 'project-card__year', project.year);
-  const description = createElement('p', 'project-card__description', project.description);
+  const description = createElement(
+    'p',
+    'project-card__description',
+    project.description
+  );
   const tags = createElement('div', 'project-card__tags');
   const links = createElement('div', 'project-card__links');
 
   titleRow.append(title, year);
-  tags.append(...project.tags.map((tag) => createElement('span', 'project-card__tag', tag)));
+  tags.append(
+    ...project.tags.map((tag) =>
+      createElement('span', 'project-card__tag', tag)
+    )
+  );
   links.append(createLinkButton('GitHub', project.github));
 
   if (project.youtube) {
@@ -244,7 +266,7 @@ function createComparisonCard(project: Project): HTMLElement {
   facts.append(
     createFact('年', project.year),
     createFact('技術数', `${project.tags.length}`),
-    createFact('受賞', project.awards ? 'あり' : 'なし'),
+    createFact('受賞', project.awards ? 'あり' : 'なし')
   );
 
   card.append(facts);
@@ -267,7 +289,7 @@ function createSpotlight(project: Project): HTMLElement {
     createElement('p', 'project-widget__eyebrow', project.year),
     createElement('h2', 'project-spotlight__title', project.name),
     createElement('p', 'project-spotlight__description', project.description),
-    createTagList(project.tags),
+    createTagList(project.tags)
   );
 
   if (project.awards) {
@@ -281,7 +303,7 @@ function createSpotlight(project: Project): HTMLElement {
 
 function createProjectTable(
   projects: Project[],
-  columns: GeneratedProjectTableColumn[],
+  columns: GeneratedProjectTableColumn[]
 ): HTMLElement {
   const wrapper = createElement('div', 'project-table');
   const table = document.createElement('table');
@@ -312,7 +334,7 @@ function createProjectTable(
 
 function createTableCell(
   project: Project,
-  key: GeneratedProjectTableColumn['key'],
+  key: GeneratedProjectTableColumn['key']
 ): HTMLTableCellElement {
   const cell = document.createElement('td');
 
@@ -349,7 +371,9 @@ function createTableCell(
 
 function createTagList(tags: string[]): HTMLElement {
   const tagList = createElement('div', 'project-card__tags');
-  tagList.append(...tags.map((tag) => createElement('span', 'project-card__tag', tag)));
+  tagList.append(
+    ...tags.map((tag) => createElement('span', 'project-card__tag', tag))
+  );
   return tagList;
 }
 
@@ -357,7 +381,7 @@ function createFact(label: string, value: string): HTMLElement {
   const fact = createElement('div', 'project-card__fact');
   fact.append(
     createElement('dt', 'project-card__fact-label', label),
-    createElement('dd', 'project-card__fact-value', value),
+    createElement('dd', 'project-card__fact-value', value)
   );
   return fact;
 }
@@ -392,7 +416,7 @@ function createLinkButton(label: string, url: string): HTMLButtonElement {
 
 async function openExternalLink(url: string): Promise<void> {
   try {
-    await hostApp.openLink({ url });
+    await generativeUI.openLink({ url });
     return;
   } catch {
     // Browser previews do not expose host link handling.
@@ -404,7 +428,7 @@ async function openExternalLink(url: string): Promise<void> {
 function createElement<K extends keyof HTMLElementTagNameMap>(
   tagName: K,
   className?: string,
-  text?: string,
+  text?: string
 ): HTMLElementTagNameMap[K] {
   const element = document.createElement(tagName);
 

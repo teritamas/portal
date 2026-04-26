@@ -5,9 +5,12 @@ import { fileURLToPath } from 'node:url';
 const currentDirectory = dirname(fileURLToPath(import.meta.url));
 const widgetDirectory = resolve(currentDirectory, './widget');
 
-export function renderProjectWidgetHtml(): string {
+export function renderProjectGenerativeUIHtml(): string {
   const script = readFileSync(resolve(widgetDirectory, 'widget.js'), 'utf8');
-  const stylesheet = readFileSync(resolve(widgetDirectory, 'widget.css'), 'utf8');
+  const stylesheet = readFileSync(
+    resolve(widgetDirectory, 'widget.css'),
+    'utf8'
+  );
 
   return `<!doctype html>
 <html lang="ja">

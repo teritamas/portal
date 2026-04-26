@@ -52,15 +52,19 @@ export interface GeneratedProjectTableColumn {
 export function searchProjects(input: ProjectSearchInput): ProjectSearchResult {
   const filters = normalizeFilters(input);
   const filteredProjects = projects.filter((project) =>
-    matchesFilters(project, filters),
+    matchesFilters(project, filters)
   );
 
   const resultWithoutUi = {
     projects: filteredProjects,
     totalCount: filteredProjects.length,
     filters,
-    availableTags: getUniqueSortedValues(projects.flatMap((project) => project.tags)),
-    availableYears: getUniqueSortedValues(projects.map((project) => project.year)),
+    availableTags: getUniqueSortedValues(
+      projects.flatMap((project) => project.tags)
+    ),
+    availableYears: getUniqueSortedValues(
+      projects.map((project) => project.year)
+    ),
   };
 
   return {
@@ -69,7 +73,9 @@ export function searchProjects(input: ProjectSearchInput): ProjectSearchResult {
   };
 }
 
-function normalizeFilters(input: ProjectSearchInput): ProjectSearchResult['filters'] {
+function normalizeFilters(
+  input: ProjectSearchInput
+): ProjectSearchResult['filters'] {
   return {
     query: normalizeText(input.query),
     tag: normalizeText(input.tag),
@@ -79,7 +85,7 @@ function normalizeFilters(input: ProjectSearchInput): ProjectSearchResult['filte
 
 function matchesFilters(
   project: Project,
-  filters: ProjectSearchResult['filters'],
+  filters: ProjectSearchResult['filters']
 ): boolean {
   const normalizedQuery = filters.query?.toLowerCase();
   const normalizedTag = filters.tag?.toLowerCase();
@@ -123,7 +129,7 @@ function getUniqueSortedValues(values: string[]): string[] {
 
 function generateProjectUi(
   result: Omit<ProjectSearchResult, 'generatedUi'>,
-  view: ProjectViewPreference,
+  view: ProjectViewPreference
 ): GeneratedProjectUi {
   const layout = resolveLayout(result, view);
 
@@ -148,7 +154,7 @@ function generateProjectUi(
 
 function resolveLayout(
   result: Omit<ProjectSearchResult, 'generatedUi'>,
-  view: ProjectViewPreference,
+  view: ProjectViewPreference
 ): Exclude<ProjectViewPreference, 'auto'> {
   if (view !== 'auto') {
     return view;
@@ -171,7 +177,7 @@ function resolveLayout(
 
 function createTitle(
   result: Omit<ProjectSearchResult, 'generatedUi'>,
-  layout: GeneratedProjectUi['layout'],
+  layout: GeneratedProjectUi['layout']
 ): string {
   if (result.filters.query) {
     return `「${result.filters.query}」に関連する作品`;
@@ -194,7 +200,7 @@ function createTitle(
 
 function createSummary(
   result: Omit<ProjectSearchResult, 'generatedUi'>,
-  layout: GeneratedProjectUi['layout'],
+  layout: GeneratedProjectUi['layout']
 ): string {
   const countText = `${result.totalCount}件の作品`;
 
@@ -214,10 +220,11 @@ function createSummary(
 }
 
 function createMetrics(
-  result: Omit<ProjectSearchResult, 'generatedUi'>,
+  result: Omit<ProjectSearchResult, 'generatedUi'>
 ): GeneratedProjectMetric[] {
   const awardCount = result.projects.filter((project) => project.awards).length;
-  const tagCount = new Set(result.projects.flatMap((project) => project.tags)).size;
+  const tagCount = new Set(result.projects.flatMap((project) => project.tags))
+    .size;
 
   return [
     { label: '作品数', value: String(result.totalCount) },
