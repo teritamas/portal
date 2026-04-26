@@ -67,8 +67,13 @@ function createMcpServer(): McpServer {
                 resourceDomains: [
                   'https://github.com',
                   'https://raw.githubusercontent.com',
+                  'https://www.youtube.com',
+                  'https://www.youtube-nocookie.com',
                 ],
-                connectDomains: [],
+                connectDomains: [
+                  'https://www.youtube.com',
+                  'https://www.youtube-nocookie.com',
+                ],
               },
             },
           },

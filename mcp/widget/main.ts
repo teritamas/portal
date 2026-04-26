@@ -167,7 +167,11 @@ function createMetrics(metrics: GeneratedProjectMetric[]): HTMLElement {
     ...metrics.map((metric) => {
       const item = createElement('div', 'project-generative-ui__metric');
       item.append(
-        createElement('dt', 'project-generative-ui__metric-label', metric.label),
+        createElement(
+          'dt',
+          'project-generative-ui__metric-label',
+          metric.label
+        ),
         createElement('dd', 'project-generative-ui__metric-value', metric.value)
       );
       return item;
@@ -181,7 +185,11 @@ function createGeneratedLayout(
   generatedUi: GeneratedProjectUi
 ): HTMLElement {
   if (projects.length === 0) {
-    return createElement('p', 'project-generative-ui__empty', generatedUi.emptyState);
+    return createElement(
+      'p',
+      'project-generative-ui__empty',
+      generatedUi.emptyState
+    );
   }
 
   if (generatedUi.layout === 'table') {
@@ -254,6 +262,14 @@ function createProjectCard(project: Project): HTMLElement {
   }
 
   body.append(description, tags, links);
+
+  if (project.youtube) {
+    const video = createYoutubeEmbed(project.youtube);
+    if (video) {
+      body.append(video);
+    }
+  }
+
   card.append(icon, body);
   return card;
 }
@@ -297,6 +313,14 @@ function createSpotlight(project: Project): HTMLElement {
   }
 
   content.append(links);
+
+  if (project.youtube) {
+    const video = createYoutubeEmbed(project.youtube);
+    if (video) {
+      content.append(video);
+    }
+  }
+
   spotlight.append(icon, content);
   return spotlight;
 }
@@ -423,6 +447,33 @@ async function openExternalLink(url: string): Promise<void> {
   }
 
   window.open(url, '_blank', 'noopener,noreferrer');
+}
+
+function createYoutubeEmbed(url: string): HTMLElement | null {
+  const videoId = extractYoutubeId(url);
+  if (!videoId) {
+    return null;
+  }
+
+  const wrapper = createElement('div', 'project-video');
+  const iframe = document.createElement('iframe');
+  const origin = window.location.origin;
+  iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?origin=${encodeURIComponent(origin)}`;
+  iframe.title = 'YouTube video player';
+  iframe.frameBorder = '0';
+  iframe.allow =
+    'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+  iframe.allowFullscreen = true;
+
+  wrapper.append(iframe);
+  return wrapper;
+}
+
+function extractYoutubeId(url: string): string | null {
+  const regex =
+    /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
 }
 
 function createElement<K extends keyof HTMLElementTagNameMap>(

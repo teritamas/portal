@@ -142,7 +142,9 @@ button {
   border-radius: 12px;
   padding: 20px;
   background: #ffffff;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 .project-card:hover {
@@ -364,6 +366,25 @@ button {
   border-color: #92400e;
   background: #fffbeb;
   color: #92400e;
+}
+
+.project-video {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin-top: 16px;
+  border-radius: 8px;
+  background: #000;
+  aspect-ratio: 16 / 9;
+}
+
+.project-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 @media (max-width: 640px) {
